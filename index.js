@@ -8,6 +8,28 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
+//Questions
+const engineerQuestions = [{
+    type: 'input',
+    name: 'engineerName',
+    message: 'Please Enter Engineer\'s Name?',
+    },
+    {
+    type: 'input',
+    name: 'engineerId',
+    message: 'Please Enter Engineer\'s Id?',
+    },
+    {
+    type: 'input',
+    name: 'engineerEmail',
+    message: 'Please Enter Engineer\'s Email?',
+    },
+    {
+    type: 'input',
+    name: 'engineerGithubUsername',
+    message: 'Please Enter Engineer\'s Github Username?',
+    }]
+
 const render = require("./src/page-template.js");
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
@@ -65,6 +87,7 @@ const additionalMenu =(list) => {
     .then(data =>{
         console.log(data)
         if(data.choice === 'Add an engineer'){
+            inqrirerQuestions("engineer", engineerQuestions, list)
             console.log("Engineer added")
         } else if(data.choice === 'Add an intern'){
             console.log("Intern added")
@@ -74,10 +97,22 @@ const additionalMenu =(list) => {
         }
     })
 }
-const inqrirerQuestions = () =>{
+const inqrirerQuestions = (choice, questions, list) =>{
     inquirer
-    .prompt()
-    .then()
+    .prompt(questions)
+    .then( data => {
+        let role;
+        //Create objects based on the chosen option
+        if(choice === "engineer"){
+            role = new Engineer(data.engineerName, data.engineerID, data.engineerEmail, data.engineerGithubUsername); 
+        } else if(choice === "intern"){
+            role = new Engineer(data.internName, data.internID, data.internEmail, data.internSchool); 
+        }
+        //Update the list
+        list.push(role)
+        //Pass the updated list to the menu
+        additionalMenu(list)
+    })
 }
 
 const generateTemplate = list => {
