@@ -29,6 +29,26 @@ const engineerQuestions = [{
     name: 'engineerGithubUsername',
     message: 'Please Enter Engineer\'s Github Username?',
     }]
+const internQuestions = [{
+    type: 'input',
+    name: 'internName',
+    message: 'Please Enter Intern\'s Name?',
+    },
+    {
+    type: 'input',
+    name: 'internId',
+    message: 'Please Enter Intern\'s Id?',
+    },
+    {
+    type: 'input',
+    name: 'internEmail',
+    message: 'Please Enter Intern\'s Email?',
+    },
+    {
+    type: 'input',
+    name: 'internSchool',
+    message: 'Please Enter Intern\'s School Name?',
+    }]
 
 const render = require("./src/page-template.js");
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
@@ -87,10 +107,9 @@ const additionalMenu =(list) => {
     .then(data =>{
         console.log(data)
         if(data.choice === 'Add an engineer'){
-            inqrirerQuestions("engineer", engineerQuestions, list)
-            console.log("Engineer added")
+            inqrirerQuestions("engineer", engineerQuestions, list);
         } else if(data.choice === 'Add an intern'){
-            console.log("Intern added")
+            inqrirerQuestions("intern", internQuestions, list);
         } else if(data.choice === 'Finish building the team'){
             console.log("Finished quiz")
             generateTemplate(list)
@@ -106,12 +125,12 @@ const inqrirerQuestions = (choice, questions, list) =>{
         if(choice === "engineer"){
             role = new Engineer(data.engineerName, data.engineerID, data.engineerEmail, data.engineerGithubUsername); 
         } else if(choice === "intern"){
-            role = new Engineer(data.internName, data.internID, data.internEmail, data.internSchool); 
+            role = new Intern(data.internName, data.internID, data.internEmail, data.internSchool); 
         }
         //Update the list
-        list.push(role)
+        list.push(role);
         //Pass the updated list to the menu
-        additionalMenu(list)
+        additionalMenu(list);
     })
 }
 
