@@ -50,11 +50,39 @@ function init() {
         let role = new Manager(data.managerName, data.managerID, data.managerEmail, data.managerOfficeNumber)
         //console.log([role]);
         list.push(role)
-        
-        const generateMarkdownFile = render(list);
-        const filename = `output/team.html`; //Filename is fixed
-        writeToFile(filename, generateMarkdownFile);
+        additionalMenu(list);
     })
 }
 
+const additionalMenu =(list) => {
+    inquirer
+    .prompt({
+        type: 'list',
+        message: 'Choose an option:',
+        name: 'choice',
+        choices: ['Add an engineer', 'Add an intern', 'Finish building the team'],
+        })
+    .then(data =>{
+        console.log(data)
+        if(data.choice === 'Add an engineer'){
+            console.log("Engineer added")
+        } else if(data.choice === 'Add an intern'){
+            console.log("Intern added")
+        } else if(data.choice === 'Finish building the team'){
+            console.log("Finished quiz")
+            generateTemplate(list)
+        }
+    })
+}
+const inqrirerQuestions = () =>{
+    inquirer
+    .prompt()
+    .then()
+}
+
+const generateTemplate = list => {
+    const generateTemplateFile = render(list);
+    const filename = `output/team.html`; //Filename is fixed
+    writeToFile(filename, generateTemplateFile);
+}
 init();
